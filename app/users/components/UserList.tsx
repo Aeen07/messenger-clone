@@ -126,17 +126,22 @@ const UserList: React.FC<UserListProps> = ({
               <UserBox key={item.id} data={item} />
             ) : null
           )}
-          {conversations.map((conv) => (
-            <UserBox
-              key={
-                conv.users[conv.users.findIndex((e) => e.id !== currentUser.id)]
-                  .id
-              }
-              data={
-                conv.users[conv.users.findIndex((e) => e.id !== currentUser.id)]
-              }
-            />
-          ))}
+          {conversations.map((conv) =>
+            !conv.isGroup ? (
+              <UserBox
+                key={
+                  conv.users[
+                    conv.users.findIndex((e) => e.id !== currentUser.id)
+                  ].id
+                }
+                data={
+                  conv.users[
+                    conv.users.findIndex((e) => e.id !== currentUser.id)
+                  ]
+                }
+              />
+            ) : null
+          )}
         </div>
       </aside>
     </>

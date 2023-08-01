@@ -16,11 +16,13 @@ import { find } from "lodash";
 interface ConversationListProps {
   initialItems: FullConversationType[];
   users: User[];
+  currentUser: User;
 }
 
 const ConversationList: React.FC<ConversationListProps> = ({
   initialItems,
   users,
+  currentUser,
 }) => {
   const [items, setItems] = useState(initialItems);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -93,8 +95,10 @@ const ConversationList: React.FC<ConversationListProps> = ({
     <>
       <GroupChatModal
         users={users}
+        convs={initialItems}
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
+        currentUser={currentUser}
       />
       <aside
         className={clsx(

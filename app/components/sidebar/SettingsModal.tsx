@@ -70,6 +70,8 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
                 font-semibold 
                 leading-7 
                 text-gray-900
+                pt-5
+                sm:pt-0
               "
             >
               Profile

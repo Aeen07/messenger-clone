@@ -11,17 +11,22 @@ import Select from "@/app/components/inputs/select";
 import Modal from "@/app/components/Modal";
 import Button from "@/app/components/Button";
 import { toast } from "react-hot-toast";
+import { FullConversationType } from "@/app/types";
 
 interface GroupChatModalProps {
   isOpen?: boolean;
   onClose: () => void;
   users: User[];
+  convs: FullConversationType[];
+  currentUser: User;
 }
 
 const GroupChatModal: React.FC<GroupChatModalProps> = ({
   isOpen,
   onClose,
   users = [],
+  convs,
+  currentUser,
 }) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
@@ -87,9 +92,15 @@ const GroupChatModal: React.FC<GroupChatModalProps> = ({
               <Select
                 disabled={isLoading}
                 label="Members"
-                options={users.map((user) => ({
-                  value: user.id,
-                  label: user.name,
+                options={convs.map((conv) => ({
+                  value:
+                    conv.users[
+                      conv.users.findIndex((e) => e.id !== currentUser.id)
+                    ].id,
+                  label:
+                    conv.users[
+                      conv.users.findIndex((e) => e.id !== currentUser.id)
+                    ].name,
                 }))}
                 onChange={(value) =>
                   setValue("members", value, {

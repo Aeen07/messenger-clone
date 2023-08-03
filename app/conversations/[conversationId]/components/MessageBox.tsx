@@ -8,6 +8,9 @@ import { format } from "date-fns";
 import Image from "next/image";
 import { useState } from "react";
 import ImageModal from "./ImageModal";
+import ProfileModal from "./ProfileModal";
+import AutoLinkText from "react-autolink-text2";
+import { User } from "@prisma/client";
 
 interface MessageBoxProps {
   data: FullMessageType;
@@ -17,6 +20,7 @@ interface MessageBoxProps {
 const MessageBox: React.FC<MessageBoxProps> = ({ data, isLast }) => {
   const session = useSession();
   const [imageModalOpen, setImageModalOpen] = useState(false);
+  const [profileModalOpen, setProfileModalOpen] = useState(false);
 
   const isOwn = session?.data?.user?.email === data?.sender?.email;
   const seenList = (data.seen || [])
@@ -39,7 +43,21 @@ const MessageBox: React.FC<MessageBoxProps> = ({ data, isLast }) => {
   return (
     <div className={container}>
       <div className={avatar}>
-        <Avatar user={data.sender} />
+        <ProfileModal
+          isOpen={profileModalOpen}
+          onClose={() => setProfileModalOpen(false)}
+          user={data.sender}
+        />
+        <div
+          onClick={() => setProfileModalOpen(true)}
+          className="
+        cursor-pointer
+        hover:scale-110
+        transition
+        translate"
+        >
+          <Avatar user={data.sender} />
+        </div>
       </div>
       <div className={body}>
         <div className="flex items-center gap-1">
@@ -62,22 +80,30 @@ const MessageBox: React.FC<MessageBoxProps> = ({ data, isLast }) => {
               width="288"
               src={data.image}
               className="
-                object-cover
-                cursor-pointer
-                hover:scale-110
-                transition
-                translate"
+                  object-cover
+                  cursor-pointer
+                  hover:scale-110
+                  transition
+                  translate
+                  "
             />
           ) : (
-            <div>{data.body}</div>
+            <AutoLinkText
+              text={data.body}
+              linkProps={{
+                target: "_blank",
+                rel: "nofollow",
+                className: "underline",
+              }}
+            />
           )}
         </div>
         {isLast && isOwn && seenList.length > 0 && (
           <div
             className="
-          text-xs
-          font-light
-          text-gray-500"
+            text-xs
+            font-light
+            text-gray-500"
           >
             {`Seen by ${seenList}`}
           </div>

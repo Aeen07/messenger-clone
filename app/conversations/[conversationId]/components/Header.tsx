@@ -64,11 +64,20 @@ const Header: React.FC<HeaderProps> = ({ conversation }) => {
           >
             <HiChevronLeft size={32} />
           </Link>
-          {conversation.isGroup ? (
-            <AvatarGroup users={conversation.users} />
-          ) : (
-            <Avatar user={otherUser} />
-          )}
+          <div
+            onClick={() => setDrawerOpen(true)}
+            className="
+            cursor-pointer
+            translate
+            transition
+            hover:scale-110"
+          >
+            {conversation.isGroup ? (
+              <AvatarGroup users={conversation.users} />
+            ) : (
+              <Avatar user={otherUser} />
+            )}
+          </div>
           <div className="flex flex-col">
             <div>{conversation.name || otherUser.name}</div>
             <div

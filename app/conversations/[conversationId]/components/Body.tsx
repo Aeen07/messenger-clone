@@ -1,23 +1,37 @@
 "use client";
 
 import axios from "axios";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import { pusherClient } from "@/app/libs/pusher";
 import useConversation from "@/app/hooks/useConversation";
 import MessageBox from "./MessageBox";
 import { FullMessageType } from "@/app/types";
 import { find } from "lodash";
+import { User } from "@prisma/client";
 
 interface BodyProps {
   initialMessages: FullMessageType[];
+  currentUser: User;
 }
 
-const Body: React.FC<BodyProps> = ({ initialMessages = [] }) => {
+const Body: React.FC<BodyProps> = ({ initialMessages = [], currentUser }) => {
   const bottomRef = useRef<HTMLDivElement>(null);
   const [messages, setMessages] = useState(initialMessages);
 
-  const { conversationId } = useConversation();
+  useEffect(() => {
+    Notification.requestPermission().then((perm) => {
+      console.log(perm);
+    });
+  }, []);
+
+  const lastMessage = useMemo(() => {
+    const Messages = messages || [];
+
+    return Messages[Messages.length - 1];
+  }, [messages]);
+
+  const { conversationId, isOpen } = useConversation();
 
   useEffect(() => {
     axios.post(`/api/conversations/${conversationId}/seen`);
@@ -28,13 +42,16 @@ const Body: React.FC<BodyProps> = ({ initialMessages = [] }) => {
     bottomRef?.current?.scrollIntoView();
 
     const messageHandler = (message: FullMessageType) => {
+      if (message.sender.id !== currentUser.id) {
+        new Notification(message.body ? message.body : "");
+      }
+
       axios.post(`/api/conversations/${conversationId}/seen`);
 
       setMessages((current) => {
         if (find(current, { id: message.id })) {
           return current;
         }
-
         return [...current, message];
       });
 

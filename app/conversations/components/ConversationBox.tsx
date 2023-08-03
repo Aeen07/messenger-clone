@@ -10,6 +10,7 @@ import { FullConversationType } from "@/app/types";
 import useOtherUser from "@/app/hooks/useOtherUser";
 import Avatar from "@/app/components/Avatar";
 import AvatarGroup from "@/app/components/AvatarGroup";
+import useConversation from "@/app/hooks/useConversation";
 
 interface ConversationBoxProps {
   data: FullConversationType;
@@ -23,6 +24,7 @@ const ConversationBox: React.FC<ConversationBoxProps> = ({
   const otherUser = useOtherUser(data);
   const session = useSession();
   const router = useRouter();
+  const { isOpen } = useConversation();
 
   const handleClick = useCallback(() => {
     router.push(`/conversations/${data.id}`);

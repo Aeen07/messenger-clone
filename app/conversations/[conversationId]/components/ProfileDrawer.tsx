@@ -173,7 +173,7 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
                           <div>{title}</div>
                           <div
                             className="
-                          text-
+                          text-sm
                           text-gray-500
                           "
                           >

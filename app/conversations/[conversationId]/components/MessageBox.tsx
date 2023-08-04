@@ -39,8 +39,8 @@ const MessageBox: React.FC<MessageBoxProps> = ({ data, isLast }) => {
   const message = clsx(
     "text-sm w-fit overflow-hidden",
     isOwn ? "bg-sky-500 text-white" : "bg-gray-100",
-    data.image && !data.video ? "rounded-md p-0" : "rounded-full py-2 px-3",
-    data.video && !data.image ? "rounded-md p-0" : "rounded-full py-2 px-3"
+    data.image && !data.video ? "rounded-md !p-0" : "rounded-full py-2 px-3",
+    data.video && !data.image ? "rounded-md !p-0" : "rounded-full py-2 px-3"
   );
 
   const handleVideoPlay = () => {

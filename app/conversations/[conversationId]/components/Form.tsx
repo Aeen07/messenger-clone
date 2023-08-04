@@ -30,10 +30,17 @@ const Form = () => {
   };
 
   const handleUpload = (result: any) => {
-    axios.post("/api/messages", {
-      image: result?.info?.secure_url,
-      conversationId,
-    });
+    if (result?.info?.secure_url.includes("video")) {
+      axios.post("/api/messages", {
+        video: result?.info?.secure_url,
+        conversationId,
+      });
+    } else {
+      axios.post("/api/messages", {
+        image: result?.info?.secure_url,
+        conversationId,
+      });
+    }
   };
   return (
     <div

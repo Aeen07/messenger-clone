@@ -6,11 +6,11 @@ import clsx from "clsx";
 import { useSession } from "next-auth/react";
 import { format } from "date-fns";
 import Image from "next/image";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import ImageModal from "./ImageModal";
 import ProfileModal from "./ProfileModal";
 import AutoLinkText from "react-autolink-text2";
-import { User } from "@prisma/client";
+import VideoModal from "./VideoModal";
 
 interface MessageBoxProps {
   data: FullMessageType;
@@ -20,7 +20,9 @@ interface MessageBoxProps {
 const MessageBox: React.FC<MessageBoxProps> = ({ data, isLast }) => {
   const session = useSession();
   const [imageModalOpen, setImageModalOpen] = useState(false);
+  const [videoModalOpen, setVideoModalOpen] = useState(false);
   const [profileModalOpen, setProfileModalOpen] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   const isOwn = session?.data?.user?.email === data?.sender?.email;
   const seenList = (data.seen || [])
@@ -37,8 +39,14 @@ const MessageBox: React.FC<MessageBoxProps> = ({ data, isLast }) => {
   const message = clsx(
     "text-sm w-fit overflow-hidden",
     isOwn ? "bg-sky-500 text-white" : "bg-gray-100",
-    data.image ? "rounded-md p-0" : "rounded-full py-2 px-3"
+    data.image && !data.video ? "rounded-md p-0" : "rounded-full py-2 px-3",
+    data.video && !data.image ? "rounded-md p-0" : "rounded-full py-2 px-3"
   );
+
+  const handleVideoPlay = () => {
+    setVideoModalOpen(true);
+    videoRef?.current?.pause();
+  };
 
   return (
     <div className={container}>
@@ -87,6 +95,65 @@ const MessageBox: React.FC<MessageBoxProps> = ({ data, isLast }) => {
                   translate
                   "
             />
+          ) : data.video ? (
+            <>
+              <VideoModal
+                src={data.video}
+                isOpen={videoModalOpen}
+                onClose={() => setVideoModalOpen(false)}
+              />
+              <div
+                className="
+              grid
+              grid-cols-1
+              grid-rows-1
+              h-full"
+              >
+                <div
+                  className="
+                    col-start-1
+                    col-end-1
+                    row-start-1
+                    z-10
+                    inset-0
+                    top-[45%]
+                    left-[45%]
+                    relative
+                    rounded-full
+                    cursor-pointer
+                    bg-blue-950/[.66]
+                    flex
+                    w-9
+                    h-9"
+                >
+                  <Image
+                    onClick={handleVideoPlay}
+                    alt="play"
+                    src="/images/play.svg"
+                    width={50}
+                    height={50}
+                    className="
+                      w-3
+                      ml-[13px]
+                      "
+                  />
+                </div>
+                <video
+                  width={288}
+                  height={288}
+                  src={data.video}
+                  onPlay={() => handleVideoPlay()}
+                  ref={videoRef}
+                  className="
+                  col-start-1
+                  col-end-1
+                  row-start-1
+                  z-0
+                  blur-md
+                  "
+                />
+              </div>
+            </>
           ) : (
             <AutoLinkText
               text={data.body}

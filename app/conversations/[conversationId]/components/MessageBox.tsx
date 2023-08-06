@@ -39,8 +39,15 @@ const MessageBox: React.FC<MessageBoxProps> = ({ data, isLast }) => {
   const message = clsx(
     "text-sm w-fit overflow-hidden",
     isOwn ? "bg-sky-500 text-white" : "bg-gray-100",
-    data.image && !data.video ? "rounded-md !p-0" : "rounded-full py-2 px-3",
-    data.video && !data.image ? "rounded-md !p-0" : "rounded-full py-2 px-3"
+    data.image && !data.video && !data.audio
+      ? "rounded-md !p-0"
+      : "rounded-full py-2 px-3",
+    data.video && !data.image && !data.audio
+      ? "rounded-md !p-0"
+      : "rounded-full py-2 px-3",
+    data.audio && !data.image && !data.video
+      ? "rounded-full !p-1"
+      : "rounded-full py-2 px-3"
   );
 
   const handleVideoPlay = () => {
@@ -110,6 +117,7 @@ const MessageBox: React.FC<MessageBoxProps> = ({ data, isLast }) => {
               h-full"
               >
                 <div
+                  onClick={handleVideoPlay}
                   className="
                     col-start-1
                     col-end-1
@@ -127,7 +135,6 @@ const MessageBox: React.FC<MessageBoxProps> = ({ data, isLast }) => {
                     h-9"
                 >
                   <Image
-                    onClick={handleVideoPlay}
                     alt="play"
                     src="/images/play.svg"
                     width={50}
@@ -154,6 +161,8 @@ const MessageBox: React.FC<MessageBoxProps> = ({ data, isLast }) => {
                 />
               </div>
             </>
+          ) : data.audio ? (
+            <audio controls src={data.audio} />
           ) : (
             <AutoLinkText
               text={data.body}

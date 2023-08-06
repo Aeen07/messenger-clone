@@ -35,6 +35,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
   } = useForm<FieldValues>({
     defaultValues: {
       name: currentUser?.name,
+      desc: currentUser?.desc,
       image: currentUser?.image,
     },
   });
@@ -88,6 +89,14 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
                 errors={errors}
                 required
                 register={register}
+              />
+              <Input
+                disabled={isLoading}
+                label="About"
+                id="desc"
+                errors={errors}
+                register={register}
+                multiline
               />
               <div>
                 <label

@@ -17,7 +17,7 @@ const VideoModal: React.FC<VideoPlayerProps> = ({ src, isOpen, onClose }) => {
           autoPlay
           controls
           className="
-        object-contain
+        object-cover
         w-full
         h-full
         flex

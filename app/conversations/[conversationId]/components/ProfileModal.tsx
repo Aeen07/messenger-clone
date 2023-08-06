@@ -22,76 +22,116 @@ const ProfileModal: React.FC<ImageModalProps> = ({ isOpen, onClose, user }) => {
   }, [isActive]);
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
-      <div
+      <table
         className="
-          relative
-          mt-6
-          flex-1
-          sm:px-6
-          px-4"
+      w-full
+      border-spacing-0
+      flex
+      flex-col"
       >
-        <div
-          className="
-            flex
-            flex-col
-            items-center"
-        >
-          <div className="mb-2">
-            <Image
-              width="100"
-              height="100"
-              className="rounded-full"
-              src={user.image || user?.image || "/images/placeholder.jpg"}
-              alt="Avatar"
-            />
-          </div>
-          <div>{user.name}</div>
+        <div className="relative">
           <div
             className="
-              space-y-8
-              px-4
-              sm:space-y-6
-              sm:px-6"
+          pt-[1.1rem]
+          px-[3.2rem]
+          pb-[1.6rem]
+          items-center
+          bg-white
+          cursor-auto
+          flex
+          m-0
+          relative"
           >
-            <dl
+            <Image
+              width={54}
+              height={54}
+              src={user?.image || "/images/placeholder.jpg"}
+              className="rounded-full"
+              alt="Avatar"
+            />
+            <div
               className="
-                space-y-8
-                px-4
-                sm:space-y-6
-                sm:px-6"
+            ml-[1.5rem]
+            overflow-hidden"
             >
-              <div>
-                <dd
-                  className="
-                    mt-1
-                    text-sm
-                    text-gray-500
-                    sm:col-span-2
-                    text-center"
-                >
-                  {user.email}
-                </dd>
-              </div>
-              <hr />
-              <div>
-                <dt
-                  className={clsx(
-                    `
-                text-sm
-                font-medium
-                text-center
-                text-gray-500
-                `,
-                    statusText !== "Offline" && "text-green-500 font-bold"
-                  )}
-                >
-                  {statusText}
-                </dt>
-              </div>
-            </dl>
+              <p
+                className="
+              font-medium
+              text-md
+              overflow-hidden
+              overflow-ellipsis
+              whitespace-nowrap
+              text-gray-900
+              m-0"
+              >
+                {user.name}
+              </p>
+              <p
+                className={clsx(
+                  `
+              text-[13px]
+              leading-5
+              text-gray-500
+              m-0
+              `,
+                  isActive && "text-green-500"
+                )}
+              >
+                {statusText}
+              </p>
+            </div>
           </div>
         </div>
-      </div>
+        <ul
+          className="
+        pl-[3.2rem]
+        pr:[1.2rem]
+        pt-[1.2rem]
+        m-0
+        list-none
+        flex
+        flex-col
+        items-start
+        border-b
+        border-b-solid
+        border-gray-900/10"
+        >
+          <li className="select-none cursor-pointer pb-[1.6rem]">
+            <p
+              className="
+            text-sm
+            font-medium  
+            text-gray-500   
+            sm:w-40   
+            sm:flex-shrink-0"
+            >
+              Email
+            </p>
+            <div className="!select-text">
+              <span className="mt-1 text-sm text-gray-900 sm:col-span-2">
+                {user.email}
+              </span>
+            </div>
+          </li>
+          <li className="select-none cursor-pointer pb-[1.6rem]">
+            <p
+              className="
+            text-sm
+            font-medium  
+            text-gray-500   
+            sm:w-40   
+            sm:flex-shrink-0"
+            >
+              About
+            </p>
+            <div className="!select-text">
+              <span className="mt-1 text-sm text-gray-900 sm:col-span-2">
+                {user.desc}
+              </span>
+            </div>
+          </li>
+        </ul>
+      </table>
     </Modal>
   );
 };

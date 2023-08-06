@@ -59,6 +59,14 @@ const ConversationBox: React.FC<ConversationBoxProps> = ({
       return "Sent an image";
     }
 
+    if (lastMessage?.video) {
+      return "Sent a video";
+    }
+
+    if (lastMessage?.audio) {
+      return "Sent an audio";
+    }
+
     if (lastMessage?.body) {
       return lastMessage.body;
     }

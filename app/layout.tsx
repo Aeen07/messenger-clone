@@ -8,8 +8,11 @@ import ActiveStatus from "./components/ActiveStatus";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Messenger",
-  description: "Made By Aeen",
+  applicationName: "Next13 chat",
+  title: "Next13 chat",
+  description: "simple messenger app",
+  authors: [{ name: "Aeen", url: "https://nextjs.org" }],
+  colorScheme: "dark",
 };
 
 export default function RootLayout({

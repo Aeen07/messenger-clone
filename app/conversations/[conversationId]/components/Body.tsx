@@ -31,7 +31,7 @@ const Body: React.FC<BodyProps> = ({ initialMessages = [], currentUser }) => {
     return Messages[Messages.length - 1];
   }, [messages]);
 
-  const { conversationId, isOpen } = useConversation();
+  const { conversationId } = useConversation();
 
   useEffect(() => {
     axios.post(`/api/conversations/${conversationId}/seen`);
@@ -42,10 +42,6 @@ const Body: React.FC<BodyProps> = ({ initialMessages = [], currentUser }) => {
     bottomRef?.current?.scrollIntoView();
 
     const messageHandler = (message: FullMessageType) => {
-      if (message.sender.id !== currentUser.id) {
-        new Notification(message.body ? message.body : "");
-      }
-
       axios.post(`/api/conversations/${conversationId}/seen`);
 
       setMessages((current) => {

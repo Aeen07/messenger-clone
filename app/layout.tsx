@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   applicationName: "Next13 chat",
   title: "Next13 chat",
   description: "simple messenger app",
-  authors: [{ name: "Aeen", url: "https://nextjs.org" }],
+  authors: [{ name: "Aeen", url: "https://https://next13chat.vercel.app" }],
   colorScheme: "dark",
 };
 

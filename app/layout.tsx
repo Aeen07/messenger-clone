@@ -8,11 +8,15 @@ import ActiveStatus from "./components/ActiveStatus";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  applicationName: "Next13 chat",
-  title: "Next13 chat",
-  description: "simple messenger app",
-  authors: [{ name: "Aeen", url: "https://https://next13chat.vercel.app" }],
-  colorScheme: "dark",
+  title: "next13 chat",
+  description: "a basic chat app made with mongodb and next13",
+  openGraph: {
+    type: "website",
+    url: "https://next13chat.vercel.app",
+    title: "next13 chat",
+    description: "a basic chat app made with mongodb and next13",
+    images: "/images/logo.png",
+  },
 };
 
 export default function RootLayout({
